@@ -3,7 +3,7 @@ const path = require('path');
 function configureKarma(config) {
   config.set({
     basePath: __dirname,
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
     coverageReporter: {
       reporters: [
         { type: 'html' },
@@ -40,7 +40,12 @@ function configureKarma(config) {
           },
           {
             include: path.resolve(__dirname, 'src'),
-            use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+            use: [
+              { loader: 'style-loader' },
+              { loader: 'css-loader' },
+              { loader: 'postcss-loader' },
+              { loader: 'sass-loader' },
+            ],
             test: /\.scss$/,
           },
         ],
