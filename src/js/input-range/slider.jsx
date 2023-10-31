@@ -23,21 +23,6 @@ export default class Slider extends React.Component {
    * @property {Function} type
    * @property {Function} value
    */
-  static get propTypes() {
-    return {
-      ariaLabelledby: PropTypes.string,
-      ariaControls: PropTypes.string,
-      classNames: PropTypes.objectOf(PropTypes.string).isRequired,
-      formatLabel: PropTypes.func,
-      maxValue: PropTypes.number,
-      minValue: PropTypes.number,
-      onSliderDrag: PropTypes.func.isRequired,
-      onSliderKeyDown: PropTypes.func.isRequired,
-      percentage: PropTypes.number.isRequired,
-      type: PropTypes.string.isRequired,
-      value: PropTypes.number.isRequired,
-    };
-  }
 
   /**
    * @param {Object} props
@@ -73,6 +58,76 @@ export default class Slider extends React.Component {
     this.removeDocumentMouseUpListener();
     this.removeDocumentTouchEndListener();
     this.removeDocumentTouchMoveListener();
+  }
+
+  /**
+   * @private
+   * @return {void}
+   */
+  @autobind
+  handleMouseDown() {
+    this.addDocumentMouseMoveListener();
+    this.addDocumentMouseUpListener();
+  }
+
+  /**
+   * @private
+   * @return {void}
+   */
+  @autobind
+  handleMouseUp() {
+    this.removeDocumentMouseMoveListener();
+    this.removeDocumentMouseUpListener();
+  }
+
+  /**
+   * @private
+   * @param {SyntheticEvent} event
+   * @return {void}
+   */
+  @autobind
+  handleMouseMove(event) {
+    this.props.onSliderDrag(event, this.props.type);
+  }
+
+  /**
+   * @private
+   * @return {void}
+   */
+  @autobind
+  handleTouchStart() {
+    this.addDocumentTouchEndListener();
+    this.addDocumentTouchMoveListener();
+  }
+
+  /**
+   * @private
+   * @param {SyntheticEvent} event
+   * @return {void}
+   */
+  @autobind
+  handleTouchMove(event) {
+    this.props.onSliderDrag(event, this.props.type);
+  }
+
+  /**
+   * @private
+   * @return {void}
+   */
+  @autobind
+  handleTouchEnd() {
+    this.removeDocumentTouchMoveListener();
+    this.removeDocumentTouchEndListener();
+  }
+
+  /**
+   * @private
+   * @param {SyntheticEvent} event
+   * @return {void}
+   */
+  @autobind
+  handleKeyDown(event) {
+    this.props.onSliderKeyDown(event, this.props.type);
   }
 
   /**
@@ -162,76 +217,6 @@ export default class Slider extends React.Component {
   }
 
   /**
-   * @private
-   * @return {void}
-   */
-  @autobind
-  handleMouseDown() {
-    this.addDocumentMouseMoveListener();
-    this.addDocumentMouseUpListener();
-  }
-
-  /**
-   * @private
-   * @return {void}
-   */
-  @autobind
-  handleMouseUp() {
-    this.removeDocumentMouseMoveListener();
-    this.removeDocumentMouseUpListener();
-  }
-
-  /**
-   * @private
-   * @param {SyntheticEvent} event
-   * @return {void}
-   */
-  @autobind
-  handleMouseMove(event) {
-    this.props.onSliderDrag(event, this.props.type);
-  }
-
-  /**
-   * @private
-   * @return {void}
-   */
-  @autobind
-  handleTouchStart() {
-    this.addDocumentTouchEndListener();
-    this.addDocumentTouchMoveListener();
-  }
-
-  /**
-   * @private
-   * @param {SyntheticEvent} event
-   * @return {void}
-   */
-  @autobind
-  handleTouchMove(event) {
-    this.props.onSliderDrag(event, this.props.type);
-  }
-
-  /**
-   * @private
-   * @return {void}
-   */
-  @autobind
-  handleTouchEnd() {
-    this.removeDocumentTouchMoveListener();
-    this.removeDocumentTouchEndListener();
-  }
-
-  /**
-   * @private
-   * @param {SyntheticEvent} event
-   * @return {void}
-   */
-  @autobind
-  handleKeyDown(event) {
-    this.props.onSliderKeyDown(event, this.props.type);
-  }
-
-  /**
    * @override
    * @return {JSX.Element}
    */
@@ -267,3 +252,17 @@ export default class Slider extends React.Component {
     );
   }
 }
+
+Slider.propTypes = {
+  ariaLabelledby: PropTypes.string,
+  ariaControls: PropTypes.string,
+  classNames: PropTypes.objectOf(PropTypes.string).isRequired,
+  formatLabel: PropTypes.func,
+  maxValue: PropTypes.number,
+  minValue: PropTypes.number,
+  onSliderDrag: PropTypes.func.isRequired,
+  onSliderKeyDown: PropTypes.func.isRequired,
+  percentage: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+};

@@ -33,14 +33,14 @@ function configureKarma(config) {
               path.resolve(__dirname, 'test'),
             ],
             loader: 'babel-loader',
-            query: {
+            options: {
               plugins: ['istanbul'],
             },
             test: /\.jsx?$/,
           },
           {
             include: path.resolve(__dirname, 'src'),
-            loaders: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+            use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
             test: /\.scss$/,
           },
         ],

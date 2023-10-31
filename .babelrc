@@ -5,5 +5,5 @@
     "transform-decorators-legacy",
     "transform-react-jsx"
   ],
-  "presets": ["es2015", "es2016", "react"]
+  "presets": ["@babel/preset-env", "@babel/react"]
 }
